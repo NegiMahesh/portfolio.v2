@@ -23,14 +23,6 @@
 </head>
 <body>
 
-  <!-- SVG turbulence gives the theme reveal its irregular, ink-blot edge. -->
-  <svg class="theme-effect-defs" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-    <filter id="theme-ink-displacement" x="-18%" y="-18%" width="136%" height="136%" color-interpolation-filters="sRGB">
-      <feTurbulence type="fractalNoise" baseFrequency="0.018 0.026" numOctaves="2" seed="8" result="inkNoise" />
-      <feDisplacementMap in="SourceGraphic" in2="inkNoise" scale="38" xChannelSelector="R" yChannelSelector="G" />
-    </filter>
-  </svg>
-
   <a class="skip-link" href="#main-content">Skip to content</a>
   <div class="reading-progress" id="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
     <span id="reading-progress-fill"></span>
