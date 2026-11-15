@@ -1887,15 +1887,7 @@ em, .period, .hero-serif { color: var(--forest); }
   .resume-heading { align-items: flex-start; }
   .resume-monogram { font-size: 1.6rem; }
 }
-@media (prefers-reduced-motion: no-preference) {
-  .theme-transitioning .site-shell { animation: themeSoftFade 260ms ease; }
-  @keyframes themeSoftFade { 0% { opacity: .94; } 100% { opacity: 1; } }
-  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 320ms; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .theme-transitioning .site-shell { animation: none; }
-  ::view-transition-old(root), ::view-transition-new(root) { animation: none; }
-}
+/* Theme changes use the paper-unfold reveal below; no global page fade. */
 @media print {
   @page { size: A4; margin: 14mm; }
   body * { visibility: hidden !important; }
@@ -1922,4 +1914,59 @@ em, .period, .hero-serif { color: var(--forest); }
   .resume-sheet { max-width: none !important; padding: 0 !important; box-shadow: none !important; }
   .resume-section, .resume-project { break-inside: avoid; }
   a { color: #28332D !important; text-decoration: none !important; }
+}
+
+
+/* Theme switch: a palette-matched sheet unfolds from the selected control. */
+.theme-paper-unfold {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--paper-sheet-color, #1C1917);
+  clip-path: polygon(
+    var(--paper-origin-x, 50%) var(--paper-origin-y, 50%),
+    var(--paper-origin-x, 50%) var(--paper-origin-y, 50%),
+    var(--paper-origin-x, 50%) var(--paper-origin-y, 50%),
+    var(--paper-origin-x, 50%) var(--paper-origin-y, 50%)
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--paper-fold-color, #F59E0B) 24%, transparent);
+  will-change: clip-path;
+}
+.theme-paper-unfold.is-unfolding {
+  animation: paperUnfold 820ms cubic-bezier(.16, 1, .3, 1) forwards;
+}
+.theme-paper-unfold::before {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, transparent 49.75%, color-mix(in srgb, var(--paper-fold-color) 24%, transparent) 50%, transparent 50.25%),
+    radial-gradient(ellipse at var(--paper-origin-x, 50%) var(--paper-origin-y, 50%), color-mix(in srgb, var(--paper-fold-color) 18%, transparent), transparent 48%);
+  content: "";
+}
+.theme-paper-unfold::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: clamp(38px, 7vw, 76px);
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, color-mix(in srgb, var(--paper-fold-color) 88%, white), var(--paper-fold-color));
+  clip-path: polygon(0 0, 100% 0, 100% 100%);
+  filter: drop-shadow(-5px 5px 7px rgba(0, 0, 0, .16));
+  content: "";
+}
+@keyframes paperUnfold {
+  0% {
+    clip-path: polygon(
+      var(--paper-origin-x) var(--paper-origin-y),
+      var(--paper-origin-x) var(--paper-origin-y),
+      var(--paper-origin-x) var(--paper-origin-y),
+      var(--paper-origin-x) var(--paper-origin-y)
+    );
+  }
+  100% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .theme-paper-unfold { display: none !important; animation: none !important; }
 }
