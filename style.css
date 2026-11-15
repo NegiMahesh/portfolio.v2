@@ -1923,3 +1923,40 @@ em, .period, .hero-serif { color: var(--forest); }
   .resume-section, .resume-project { break-inside: avoid; }
   a { color: #28332D !important; text-decoration: none !important; }
 }
+
+
+/* Organic ink-blot reveal for theme changes (View Transitions API). */
+.theme-effect-defs {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+::view-transition-group(root) {
+  animation-duration: 920ms;
+}
+::view-transition-old(root) {
+  animation: none;
+}
+::view-transition-new(root) {
+  animation: themeInkBlotReveal 920ms cubic-bezier(.18, .72, .18, 1) both;
+  filter: url("#theme-ink-displacement");
+  transform-origin: var(--theme-origin-x, 50vw) var(--theme-origin-y, 50vh);
+}
+@keyframes themeInkBlotReveal {
+  from {
+    clip-path: circle(0 at var(--theme-origin-x, 50vw) var(--theme-origin-y, 50vh));
+  }
+  to {
+    clip-path: circle(155vmax at var(--theme-origin-x, 50vw) var(--theme-origin-y, 50vh));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(root) { animation-duration: 1ms; }
+  ::view-transition-new(root) {
+    animation: none;
+    filter: none;
+    clip-path: none;
+  }
+}
