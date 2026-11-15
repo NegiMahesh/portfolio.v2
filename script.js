@@ -205,7 +205,7 @@ const commandItems = Array.from(document.querySelectorAll(".command-item"));
 const projectDialog = document.getElementById("project-dialog");
 const resumeDialog = document.getElementById("resume-dialog");
 const toast = document.getElementById("site-toast");
-let lastDialogTrigger = null;
+const dialogReturnFocus = new WeakMap();
 let toastTimer = null;
 
 const projectDetails = {
@@ -288,7 +288,7 @@ function openDialog(dialog, trigger) {
     showToast("This browser doesn't support the preview window. Please try an updated browser.");
     return;
   }
-  lastDialogTrigger = trigger || document.activeElement;
+  dialogReturnFocus.set(dialog, trigger || document.activeElement);
   if (!dialog.open) dialog.showModal();
   const closeButton = dialog.querySelector("[data-close-dialog]");
   if (closeButton) requestAnimationFrame(() => closeButton.focus());
@@ -308,9 +308,11 @@ document.querySelectorAll("[data-close-dialog]").forEach((button) => {
     if (event.target === dialog) dialog.close();
   });
   dialog.addEventListener("close", () => {
-    if (lastDialogTrigger && typeof lastDialogTrigger.focus === "function") {
-      lastDialogTrigger.focus({ preventScroll: true });
+    const returnFocus = dialogReturnFocus.get(dialog);
+    if (returnFocus && typeof returnFocus.focus === "function") {
+      returnFocus.focus({ preventScroll: true });
     }
+    dialogReturnFocus.delete(dialog);
   });
 });
 
@@ -430,8 +432,7 @@ if (commandSearch) {
       let current = items.findIndex((item) => item.classList.contains("is-active"));
       current = (current + direction + items.length) % items.length;
       items.forEach((item, index) => item.classList.toggle("is-active", index === current));
-      commandSearch.setAttribute("aria-activedescendant", items[current].id || "");
-      if (!items[current].id) items[current].id = "command-item-" + current;
+      if (!items[current].id) items[current].id = "command-item-" + commandItems.indexOf(items[current]);
       commandSearch.setAttribute("aria-activedescendant", items[current].id);
       items[current].scrollIntoView({ block: "nearest" });
     } else if (event.key === "Enter") {
@@ -469,7 +470,8 @@ commandItems.forEach((item) => item.addEventListener("click", () => runCommand(i
 document.addEventListener("keydown", (event) => {
   if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
     event.preventDefault();
-    openCommandPalette(commandTrigger);
+    const origin = document.activeElement === document.body ? null : document.activeElement;
+    openCommandPalette(origin);
   }
 });
 
