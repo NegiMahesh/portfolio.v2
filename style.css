@@ -833,3 +833,56 @@ em, .period, .hero-serif { color: var(--forest); }
   .js-enabled [data-reveal] { transform: none; transition: none; }
   .skill-card, .project-card, .education-card { will-change: auto; }
 }
+
+
+/* ---------------------------------------------------------
+   SMALL TEXT LEGIBILITY +2PX
+   Increase micro-labels, captions and compact metadata
+   without changing the main heading/body typography.
+---------------------------------------------------------- */
+.eyebrow,
+.section-kicker { font-size: calc(.65rem + 2px); }
+.hero-meta { font-size: calc(.62rem + 2px); }
+.art-topline { font-size: calc(.55rem + 2px); }
+.art-caption small { font-size: calc(.62rem + 2px); }
+.art-sticker { font-size: calc(.52rem + 2px); }
+.ticker-track { font-size: calc(.62rem + 2px); }
+.about-signoff { font-size: calc(.64rem + 2px); }
+.skill-number { font-size: calc(.55rem + 2px); }
+.skill-card p { font-size: calc(.75rem + 2px); }
+.tag-list span { font-size: calc(.57rem + 2px); }
+.skills-footnote { font-size: calc(.62rem + 2px); }
+.inline-link { font-size: calc(.65rem + 2px); }
+.visual-label { font-size: calc(.55rem + 2px); }
+.assistant-ui-top { font-size: calc(.57rem + 2px); }
+.ui-live { font-size: calc(.5rem + 2px); }
+.assistant-ui-body {
+  font-size: clamp(calc(.62rem + 2px), calc(1vw + 2px), calc(.76rem + 2px));
+}
+.mockup-copy small { font-size: calc(.47rem + 2px); }
+.project-overline { font-size: calc(.57rem + 2px); }
+.education-year { font-size: calc(.58rem + 2px); }
+.education-status { font-size: calc(.57rem + 2px); }
+.education-bottom { font-size: calc(.63rem + 2px); }
+.education-content > p { font-size: calc(.8rem + 2px); }
+.contact-topline { font-size: calc(.57rem + 2px); }
+.contact-pretitle { font-size: calc(.83rem + 2px); }
+.email-note { font-size: calc(.62rem + 2px); }
+.contact-footer { font-size: calc(.57rem + 2px); }
+.footer-inner p { font-size: calc(.67rem + 2px); }
+
+/* Keep the same +2px increase at the smaller breakpoints. */
+@media (max-width: 700px) {
+  .ticker-track { font-size: calc(.55rem + 2px); }
+  .art-sticker { font-size: calc(.47rem + 2px); }
+  .skill-card p { font-size: calc(.72rem + 2px); }
+  .tag-list span { font-size: calc(.53rem + 2px); }
+  .education-year { font-size: calc(.5rem + 2px); }
+  .education-content > p { font-size: calc(.73rem + 2px); }
+  .contact-topline { font-size: calc(.49rem + 2px); }
+  .contact-pretitle { font-size: calc(.75rem + 2px); }
+  .contact-footer { font-size: calc(.51rem + 2px); }
+}
+@media (max-width: 420px) {
+  .art-topline { font-size: calc(.48rem + 2px); }
+}
