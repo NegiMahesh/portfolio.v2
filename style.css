@@ -1293,3 +1293,130 @@ em, .period, .hero-serif { color: var(--forest); }
   :root[data-theme="terracotta"] .nav-links > a { color: #657067; }
   :root[data-theme="terracotta"] .nav-links .nav-cta { border-color: rgba(184,92,56,.55); }
 }
+
+
+/* Three selected projects: consistent cards across desktop and tablet. */
+.projects-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+.project-details p { min-height: 130px; }
+@media (max-width: 980px) {
+  .projects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 700px) {
+  .projects-grid { grid-template-columns: 1fr; }
+  .project-details p { min-height: 0; }
+}
+
+/* TraceBack project preview — stack trace to verified repair. */
+.traceback-visual {
+  background:
+    radial-gradient(circle at 75% 20%, rgba(245,158,11,.15), transparent 43%),
+    linear-gradient(145deg, #33271F 0%, #201B17 100%);
+}
+.traceback-visual .visual-label { color: #E8B76D; }
+.traceback-window {
+  position: relative;
+  z-index: 2;
+  width: 82%;
+  max-width: 390px;
+  overflow: hidden;
+  border: 1px solid rgba(245,158,11,.22);
+  border-radius: 5px;
+  background: #181614;
+  box-shadow: 0 18px 45px rgba(0,0,0,.34), 8px 10px 0 rgba(0,0,0,.12);
+  transform: rotate(-1.5deg);
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+.traceback-visual:hover .traceback-window {
+  transform: rotate(0) translateY(-3px);
+  box-shadow: 0 23px 52px rgba(0,0,0,.4), 8px 10px 0 rgba(0,0,0,.1);
+}
+.traceback-window-top {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 13px;
+  border-bottom: 1px solid rgba(255,255,255,.1);
+  color: #C4B29B;
+  font-family: var(--mono);
+  font-size: .56rem;
+}
+.traceback-window-dots { display: flex; gap: 4px; }
+.traceback-window-dots i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #D98B6A;
+}
+.traceback-window-dots i:nth-child(2) { background: #E6BC70; }
+.traceback-window-dots i:nth-child(3) { background: #91A77D; }
+.traceback-live {
+  margin-left: auto;
+  color: #DDB16E;
+  font-size: .54rem;
+}
+.traceback-window-body {
+  padding: 20px 17px 17px;
+  color: #EAE1D6;
+  font-family: var(--mono);
+  font-size: .64rem;
+  line-height: 1.8;
+}
+.traceback-line { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; }
+.traceback-line-number { color: #82776B; }
+.traceback-line b { color: #E8A16F; font-weight: 500; }
+.traceback-line strong { color: #F3C16A; font-weight: 600; }
+.traceback-divider { height: 1px; margin: 13px 0; background: rgba(255,255,255,.1); }
+.traceback-steps {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px 10px;
+  color: #C1AC91;
+  font-size: .53rem;
+  letter-spacing: .035em;
+}
+.traceback-result {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 15px;
+  padding: 8px 10px;
+  border: 1px solid rgba(145,167,125,.22);
+  background: rgba(145,167,125,.08);
+  color: #B8D19A;
+  font-size: .59rem;
+  letter-spacing: .08em;
+}
+.traceback-result i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #9DBB7A;
+  box-shadow: 0 0 0 4px rgba(157,187,122,.12);
+}
+@media (max-width: 420px) {
+  .traceback-window { width: 88%; }
+  .traceback-window-body { padding: 17px 13px 14px; }
+}
+
+/* Terracotta variant of the TraceBack illustration. */
+:root[data-theme="terracotta"] .traceback-visual {
+  background:
+    radial-gradient(circle at 75% 20%, rgba(184,92,56,.15), transparent 43%),
+    linear-gradient(145deg, #E8D6C6 0%, #DCC7B5 100%);
+}
+:root[data-theme="terracotta"] .traceback-visual .visual-label { color: #80523F; }
+:root[data-theme="terracotta"] .traceback-window {
+  border-color: rgba(184,92,56,.28);
+  background: #28332D;
+  box-shadow: 0 18px 45px rgba(40,51,45,.2), 8px 10px 0 rgba(40,51,45,.08);
+}
+:root[data-theme="terracotta"] .traceback-window-top {
+  border-bottom-color: rgba(247,241,232,.12);
+  color: #D9C8B5;
+}
+:root[data-theme="terracotta"] .traceback-line-number { color: #9BA497; }
+:root[data-theme="terracotta"] .traceback-divider { background: rgba(247,241,232,.13); }
+:root[data-theme="terracotta"] .traceback-steps { color: #D3B89C; }
