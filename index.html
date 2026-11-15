@@ -9,6 +9,15 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    try {
+      if (localStorage.getItem("mahesh-portfolio-theme") === "terracotta") {
+        document.documentElement.dataset.theme = "terracotta";
+      }
+    } catch (error) {
+      /* Theme switching still works for this visit when storage is unavailable. */
+    }
+  </script>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
@@ -33,6 +42,10 @@
           <a href="#projects">Projects</a>
           <a href="#education">Education</a>
           <a class="nav-cta" href="#contact">Let's talk <span aria-hidden="true">↗</span></a>
+          <div class="theme-switch" role="group" aria-label="Choose color theme">
+            <button class="theme-option" type="button" data-theme-choice="warm-dark" aria-pressed="true">Warm Dark</button>
+            <button class="theme-option" type="button" data-theme-choice="terracotta" aria-pressed="false">Terracotta</button>
+          </div>
         </div>
       </nav>
     </header>
