@@ -1420,3 +1420,38 @@ em, .period, .hero-serif { color: var(--forest); }
 :root[data-theme="terracotta"] .traceback-line-number { color: #9BA497; }
 :root[data-theme="terracotta"] .traceback-divider { background: rgba(247,241,232,.13); }
 :root[data-theme="terracotta"] .traceback-steps { color: #D3B89C; }
+
+
+/* Contact actions: keep email and LinkedIn side by side. */
+.contact-actions {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+.contact-button-secondary {
+  border: 1px solid rgba(245,158,11,.55);
+  background: rgba(255,255,255,.035);
+  color: #F7C66B;
+}
+.contact-button-secondary:hover {
+  border-color: #F59E0B;
+  background: #F59E0B;
+  color: #21170B;
+}
+:root[data-theme="terracotta"] .contact-button-secondary {
+  border-color: rgba(247,211,194,.58);
+  background: rgba(255,255,255,.045);
+  color: #F7D3C2;
+}
+:root[data-theme="terracotta"] .contact-button-secondary:hover {
+  border-color: #D07854;
+  background: #D07854;
+  color: #FFFCF7;
+}
+@media (max-width: 420px) {
+  .contact-actions { align-items: stretch; flex-direction: column; }
+  .contact-actions .contact-button { justify-content: space-between; width: 100%; }
+}
