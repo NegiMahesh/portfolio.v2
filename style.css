@@ -886,3 +886,36 @@ em, .period, .hero-serif { color: var(--forest); }
 @media (max-width: 420px) {
   .art-topline { font-size: calc(.48rem + 2px); }
 }
+
+
+/* Five-card toolkit layout, including the Machine Learning card. */
+.skills-grid {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+.skills-grid > .skill-card { grid-column: span 2; }
+.skills-grid > .skill-card:nth-child(4) { grid-column: 2 / span 2; }
+.skills-grid > .skill-card:nth-child(5) { grid-column: 4 / span 2; }
+.symbol-ml {
+  border: 1px solid rgba(245,158,11,.2);
+  background: linear-gradient(145deg, #49331C, #33271D);
+  color: #FFC45D;
+  font-family: var(--mono);
+  font-size: .95rem;
+  font-weight: 700;
+  letter-spacing: -.06em;
+}
+.skill-card-ml {
+  border-color: rgba(245,158,11,.24);
+}
+.skill-card-ml:hover {
+  border-color: rgba(245,158,11,.45);
+}
+@media (max-width: 980px) {
+  .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .skills-grid > .skill-card,
+  .skills-grid > .skill-card:nth-child(4),
+  .skills-grid > .skill-card:nth-child(5) { grid-column: auto; }
+}
+@media (max-width: 420px) {
+  .skills-grid { grid-template-columns: 1fr; }
+}
