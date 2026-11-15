@@ -33,8 +33,8 @@
         <button class="dialog-icon-button" type="button" data-close-dialog aria-label="Close command palette">×</button>
       </div>
       <label class="visually-hidden" for="command-search">Search portfolio actions</label>
-      <input class="command-search" id="command-search" type="search" placeholder="Search sections, projects and actions..." autocomplete="off">
-      <p class="command-hint"><span>↑ ↓ Navigate</span><span>↵ Select</span><span>Esc Close</span></p>
+      <input class="command-search" id="command-search" type="search" aria-describedby="command-hint" placeholder="Search sections, projects and actions..." autocomplete="off">
+      <p class="command-hint" id="command-hint"><span>↑ ↓ Navigate</span><span>↵ Select</span><span>Esc Close</span></p>
       <div class="command-results" id="command-results" role="group" aria-label="Portfolio commands">
         <button class="command-item" type="button" data-command="section" data-target="#home" data-search="home start top">
           <span class="command-item-icon">⌂</span><span class="command-item-copy"><strong>Go to Home</strong><small>Start of the portfolio</small></span><kbd>HOME</kbd>
@@ -82,7 +82,7 @@
     </div>
   </dialog>
 
-  <dialog class="project-dialog" id="project-dialog" aria-labelledby="project-dialog-title">
+  <dialog class="project-dialog" id="project-dialog" aria-labelledby="project-dialog-title" aria-describedby="project-dialog-description">
     <div class="project-dialog-shell">
       <div class="project-dialog-top">
         <span class="dialog-kicker" id="project-dialog-kicker">PROJECT DETAILS</span>
@@ -104,7 +104,7 @@
       <div class="resume-toolbar">
         <div><span class="dialog-kicker">RESUME PREVIEW</span><p>Print or save a PDF copy from your browser.</p></div>
         <div class="resume-toolbar-actions">
-          <button class="resume-print-button" type="button" id="resume-print">Download PDF ↗</button>
+          <button class="resume-print-button" type="button" id="resume-print">Print / Save PDF ↗</button>
           <button class="dialog-icon-button" type="button" data-close-dialog aria-label="Close résumé preview">×</button>
         </div>
       </div>
@@ -317,7 +317,7 @@
               <p>A local-first personal assistant built around a FastAPI backend and local Ollama models, with a web interface and experiments in voice and vision features.</p>
               <div class="tag-list"><span>Python</span><span>FastAPI</span><span>Ollama</span><span>JavaScript</span></div>
               <a class="inline-link" href="https://github.com/NegiMahesh/AI_assistant" target="_blank" rel="noopener noreferrer">Explore the project <span>↗</span></a>
-              <button class="quick-view-button" type="button" data-open-project="assistant" aria-haspopup="dialog" aria-controls="project-dialog">Quick view <span>↗</span></button>
+              <button class="quick-view-button" type="button" data-open-project="assistant" aria-haspopup="dialog" aria-controls="project-dialog" aria-label="Quick view: Fast AI Assistant">Quick view <span>↗</span></button>
             </div>
           </article>
 
@@ -349,13 +349,13 @@
               <p>An AI-powered Python debugging engine that parses crashes, traces the faulty line and Git commit origin, then proposes a targeted fix and regression test using a local Ollama model. Changes are tested and verified before approval.</p>
               <div class="tag-list"><span>Python</span><span>FastAPI</span><span>React</span><span>Ollama</span><span>Pytest</span><span>Git</span></div>
               <a class="inline-link" href="https://github.com/NegiMahesh/TraceBack" target="_blank" rel="noopener noreferrer">Explore TraceBack <span>↗</span></a>
-              <button class="quick-view-button" type="button" data-open-project="traceback" aria-haspopup="dialog" aria-controls="project-dialog">Quick view <span>↗</span></button>
+              <button class="quick-view-button" type="button" data-open-project="traceback" aria-haspopup="dialog" aria-controls="project-dialog" aria-label="Quick view: TraceBack">Quick view <span>↗</span></button>
             </div>
           </article>
 
           <article class="project-card" data-reveal data-project-categories="web frontend">
             <a class="project-visual portfolio-visual" href="https://github.com/NegiMahesh/portfolio.v2" target="_blank" rel="noopener noreferrer" aria-label="View this portfolio source code on GitHub">
-              <div class="visual-label">PERSONAL SITE / 002</div>
+              <div class="visual-label">PERSONAL SITE / 003</div>
               <div class="portfolio-mockup">
                 <div class="mockup-nav"><b>mahesh<span>.</span></b><i></i><i></i><i></i></div>
                 <div class="mockup-copy"><small>HELLO, I'M MAHESH</small><strong>Ideas into<br><em>interfaces.</em></strong><span class="mockup-button"></span></div>
@@ -369,7 +369,7 @@
               <p>A responsive personal website to introduce myself, share what I'm learning, and showcase projects along the way.</p>
               <div class="tag-list"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
               <a class="inline-link" href="https://github.com/NegiMahesh/portfolio.v2" target="_blank" rel="noopener noreferrer">View source code <span>↗</span></a>
-              <button class="quick-view-button" type="button" data-open-project="portfolio" aria-haspopup="dialog" aria-controls="project-dialog">Quick view <span>↗</span></button>
+              <button class="quick-view-button" type="button" data-open-project="portfolio" aria-haspopup="dialog" aria-controls="project-dialog" aria-label="Quick view: Developer Portfolio">Quick view <span>↗</span></button>
             </div>
           </article>
         </div>
@@ -424,7 +424,6 @@
           <p class="contact-pretitle">Have a question, an idea, or an opportunity?</p>
           <h2>Let's make<br><em>something meaningful.</em></h2>
           <p class="contact-copy">I'm always glad to connect with people who enjoy learning, sharing ideas, and building useful things.</p>
-          <!-- Replace the placeholder email with your real email address before publishing. -->
           <div class="contact-actions">
             <a class="contact-button" href="mailto:negimahesh34@gmail.com">Write me an email <span>↗</span></a>
             <button class="contact-button contact-button-copy" type="button" data-copy-email="negimahesh34@gmail.com">Copy email <span aria-hidden="true">⧉</span></button>
