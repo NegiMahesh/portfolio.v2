@@ -169,18 +169,8 @@ function setPortfolioTheme(theme, savePreference = true) {
 
   if (selectedTheme === root.dataset.theme) return;
 
-  // Change the palette beneath an original symbiote-style tendril wipe.
-  const wipe = document.getElementById("symbiote-wipe");
-  if (!reduceMotion && wipe) {
-    wipe.classList.remove("is-active");
-    // Restart the SVG/CSS animation if the user switches themes again quickly.
-    void wipe.getBoundingClientRect();
-    applyPortfolioTheme(selectedTheme);
-    wipe.classList.add("is-active");
-    window.setTimeout(() => wipe.classList.remove("is-active"), 940);
-  } else {
-    applyPortfolioTheme(selectedTheme);
-  }
+  // Switch themes immediately, without an overlay or transition animation.
+  applyPortfolioTheme(selectedTheme);
 
   if (savePreference) {
     try {
