@@ -163,13 +163,52 @@ function applyPortfolioTheme(selectedTheme) {
   }
 }
 
-function setPortfolioTheme(theme, savePreference = true) {
+let activeThemePaper = null;
+
+function playThemePaperUnfold(selectedTheme, trigger) {
+  if (reduceMotion) return;
+
+  if (activeThemePaper) {
+    activeThemePaper.remove();
+    activeThemePaper = null;
+  }
+
+  const paper = document.createElement("div");
+  paper.className = "theme-paper-unfold";
+  paper.setAttribute("aria-hidden", "true");
+
+  const bounds = trigger && typeof trigger.getBoundingClientRect === "function"
+    ? trigger.getBoundingClientRect()
+    : null;
+  const originX = bounds ? bounds.left + bounds.width / 2 : window.innerWidth / 2;
+  const originY = bounds ? bounds.top + bounds.height / 2 : window.innerHeight / 2;
+  const x = Math.max(0, Math.min(100, (originX / window.innerWidth) * 100));
+  const y = Math.max(0, Math.min(100, (originY / window.innerHeight) * 100));
+
+  paper.style.setProperty("--paper-origin-x", x + "%");
+  paper.style.setProperty("--paper-origin-y", y + "%");
+  paper.style.setProperty("--paper-sheet-color", selectedTheme === "terracotta" ? "#F7F1E8" : "#1C1917");
+  paper.style.setProperty("--paper-fold-color", selectedTheme === "terracotta" ? "#B85C38" : "#F59E0B");
+
+  const removePaper = () => {
+    paper.remove();
+    if (activeThemePaper === paper) activeThemePaper = null;
+  };
+
+  paper.addEventListener("animationend", removePaper, { once: true });
+  activeThemePaper = paper;
+  document.body.appendChild(paper);
+  requestAnimationFrame(() => paper.classList.add("is-unfolding"));
+  window.setTimeout(removePaper, 1100);
+}
+
+function setPortfolioTheme(theme, savePreference = true, trigger = null) {
   const selectedTheme = theme === "terracotta" ? "terracotta" : "warm-dark";
   const root = document.documentElement;
 
   if (selectedTheme === root.dataset.theme) return;
 
-  // Switch themes immediately, without an overlay or transition animation.
+  if (trigger) playThemePaperUnfold(selectedTheme, trigger);
   applyPortfolioTheme(selectedTheme);
 
   if (savePreference) {
@@ -188,7 +227,7 @@ setPortfolioTheme(initialTheme, false);
 
 themeOptions.forEach((option) => {
   option.addEventListener("click", () => {
-    setPortfolioTheme(option.dataset.themeChoice);
+    setPortfolioTheme(option.dataset.themeChoice, true, option);
   });
 });
 
@@ -470,7 +509,7 @@ function runCommand(item) {
   } else if (action === "copy-email") {
     copyPortfolioEmail();
   } else if (action === "theme") {
-    setPortfolioTheme(item.dataset.themeChoice);
+    setPortfolioTheme(item.dataset.themeChoice, true, item);
     showToast("Theme changed to " + (item.dataset.themeChoice === "terracotta" ? "Terracotta Editorial" : "Warm Dark"));
   }
 }
