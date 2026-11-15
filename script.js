@@ -355,9 +355,8 @@ document.querySelectorAll("[data-open-resume]").forEach((button) => {
 const resumePrint = document.getElementById("resume-print");
 if (resumePrint) {
   resumePrint.addEventListener("click", () => {
-    closeDialog(resumeDialog);
-    // Open the print dialog after the résumé dialog has closed.
-    window.setTimeout(() => window.print(), 100);
+    // Keep the dialog open so the print stylesheet can isolate the résumé.
+    window.print();
   });
 }
 
@@ -430,7 +429,9 @@ if (commandSearch) {
       event.preventDefault();
       const direction = event.key === "ArrowDown" ? 1 : -1;
       let current = items.findIndex((item) => item.classList.contains("is-active"));
-      current = (current + direction + items.length) % items.length;
+      current = current < 0
+        ? (direction > 0 ? 0 : items.length - 1)
+        : (current + direction + items.length) % items.length;
       items.forEach((item, index) => item.classList.toggle("is-active", index === current));
       if (!items[current].id) items[current].id = "command-item-" + commandItems.indexOf(items[current]);
       commandSearch.setAttribute("aria-activedescendant", items[current].id);
@@ -441,6 +442,11 @@ if (commandSearch) {
       active.click();
     }
   });
+}
+
+function getCommandReturnFocus() {
+  if (commandTrigger && commandTrigger.getClientRects().length) return commandTrigger;
+  return document.querySelector(".brand") || document.body;
 }
 
 function runCommand(item) {
@@ -454,9 +460,9 @@ function runCommand(item) {
       target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
     }
   } else if (action === "project") {
-    openProjectDetails(item.dataset.projectId, commandTrigger);
+    openProjectDetails(item.dataset.projectId, getCommandReturnFocus());
   } else if (action === "resume") {
-    openDialog(resumeDialog, commandTrigger);
+    openDialog(resumeDialog, getCommandReturnFocus());
   } else if (action === "copy-email") {
     copyPortfolioEmail();
   } else if (action === "theme") {
