@@ -1,10 +1,13 @@
-// Mahesh Negi — Portfolio interactions
+// Mahesh Negi — portfolio interactions
 document.documentElement.classList.add("js-enabled");
 
 const menuToggle = document.getElementById("menu-toggle");
 const navLinks = document.getElementById("nav-links");
-const header = document.querySelector(".site-header");
+const siteHeader = document.querySelector(".site-header");
+const yearElement = document.getElementById("current-year");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+// Mobile navigation
 function closeMenu() {
   if (!menuToggle || !navLinks) return;
   menuToggle.setAttribute("aria-expanded", "false");
@@ -29,57 +32,19 @@ if (menuToggle && navLinks) {
   });
 
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 680) closeMenu();
+    if (window.innerWidth > 700) closeMenu();
   });
 }
 
-// Add a subtle header border after the page starts scrolling.
+// Add a delicate shadow to the sticky navigation after scrolling.
 function updateHeader() {
-  if (header) header.classList.toggle("scrolled", window.scrollY > 12);
+  if (siteHeader) siteHeader.classList.toggle("scrolled", window.scrollY > 10);
 }
 window.addEventListener("scroll", updateHeader, { passive: true });
 updateHeader();
 
-// Rotate the short role labels in the hero section.
-const typedRole = document.getElementById("typed-role");
-const roles = ["Web development", "C programming", "Java & problem solving", "Python and local AI"];
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-if (typedRole && !reduceMotion) {
-  let roleIndex = 0;
-  let characterIndex = roles[0].length;
-  let deleting = true;
-
-  function typeNext() {
-    const currentRole = roles[roleIndex];
-
-    if (deleting) {
-      characterIndex -= 1;
-      typedRole.textContent = currentRole.slice(0, Math.max(0, characterIndex));
-      if (characterIndex <= 0) {
-        deleting = false;
-        roleIndex = (roleIndex + 1) % roles.length;
-      }
-      window.setTimeout(typeNext, 45);
-      return;
-    }
-
-    const nextRole = roles[roleIndex];
-    characterIndex += 1;
-    typedRole.textContent = nextRole.slice(0, characterIndex);
-
-    if (characterIndex >= nextRole.length) {
-      deleting = true;
-      window.setTimeout(typeNext, 1500);
-    } else {
-      window.setTimeout(typeNext, 75);
-    }
-  }
-
-  window.setTimeout(typeNext, 1800);
-}
-
-// Reveal sections as they enter the viewport.
+// Reveal content as it enters the viewport. The page remains readable
+// without JavaScript because the reveal styles are enabled only above.
 const revealItems = document.querySelectorAll("[data-reveal]");
 if ("IntersectionObserver" in window && !reduceMotion) {
   const revealObserver = new IntersectionObserver((entries, observer) => {
@@ -89,13 +54,12 @@ if ("IntersectionObserver" in window && !reduceMotion) {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.12 });
+  }, { threshold: 0.12, rootMargin: "0px 0px -24px 0px" });
 
   revealItems.forEach((item) => revealObserver.observe(item));
 } else {
   revealItems.forEach((item) => item.classList.add("is-visible"));
 }
 
-// Keep the copyright year current.
-const yearElement = document.getElementById("current-year");
-if (yearElement) yearElement.textContent = new Date().getFullYear();
+// Keep the footer year up to date.
+if (yearElement) yearElement.textContent = String(new Date().getFullYear());
