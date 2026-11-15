@@ -151,3 +151,44 @@ if (tiltCard && canUsePointerTilt) {
     tiltCard.style.removeProperty("--spotlight-y");
   });
 }
+
+
+// Two-theme portfolio switch. Warm Dark remains the default.
+const themeOptions = Array.from(document.querySelectorAll("[data-theme-choice]"));
+const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+
+function setPortfolioTheme(theme, savePreference = true) {
+  const selectedTheme = theme === "terracotta" ? "terracotta" : "warm-dark";
+  document.documentElement.dataset.theme = selectedTheme;
+
+  themeOptions.forEach((option) => {
+    const isSelected = option.dataset.themeChoice === selectedTheme;
+    option.setAttribute("aria-pressed", String(isSelected));
+  });
+
+  if (themeColorMeta) {
+    themeColorMeta.setAttribute(
+      "content",
+      selectedTheme === "terracotta" ? "#F7F1E8" : "#1C1917"
+    );
+  }
+
+  if (savePreference) {
+    try {
+      localStorage.setItem("mahesh-portfolio-theme", selectedTheme);
+    } catch (error) {
+      // Theme switching remains available for the current page session.
+    }
+  }
+}
+
+const initialTheme = document.documentElement.dataset.theme === "terracotta"
+  ? "terracotta"
+  : "warm-dark";
+setPortfolioTheme(initialTheme, false);
+
+themeOptions.forEach((option) => {
+  option.addEventListener("click", () => {
+    setPortfolioTheme(option.dataset.themeChoice);
+  });
+});
