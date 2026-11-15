@@ -123,3 +123,31 @@ if ("IntersectionObserver" in window && observedSections.length) {
   });
   observedSections.forEach((section) => sectionObserver.observe(section));
 }
+
+
+// Subtle pointer lighting and tilt for the hero artwork.
+// Touch users and reduced-motion users keep the static composition.
+const tiltCard = document.querySelector("[data-tilt]");
+const canUsePointerTilt = window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reduceMotion;
+
+if (tiltCard && canUsePointerTilt) {
+  tiltCard.addEventListener("pointermove", (event) => {
+    if (event.pointerType === "touch") return;
+    const bounds = tiltCard.getBoundingClientRect();
+    const x = (event.clientX - bounds.left) / bounds.width;
+    const y = (event.clientY - bounds.top) / bounds.height;
+    const rotateY = (x - 0.5) * 5;
+    const rotateX = (0.5 - y) * 5;
+
+    tiltCard.style.setProperty("--spotlight-x", (x * 100).toFixed(1) + "%");
+    tiltCard.style.setProperty("--spotlight-y", (y * 100).toFixed(1) + "%");
+    tiltCard.style.transform =
+      "perspective(1000px) rotateX(" + rotateX.toFixed(2) + "deg) rotateY(" + rotateY.toFixed(2) + "deg)";
+  });
+
+  tiltCard.addEventListener("pointerleave", () => {
+    tiltCard.style.transform = "";
+    tiltCard.style.removeProperty("--spotlight-x");
+    tiltCard.style.removeProperty("--spotlight-y");
+  });
+}
