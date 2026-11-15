@@ -163,16 +163,40 @@ function applyPortfolioTheme(selectedTheme) {
   }
 }
 
-function setPortfolioTheme(theme, savePreference = true) {
+function setPortfolioTheme(theme, savePreference = true, triggerEvent = null) {
   const selectedTheme = theme === "terracotta" ? "terracotta" : "warm-dark";
+  const root = document.documentElement;
+
+  if (selectedTheme === root.dataset.theme) return;
+
   const apply = () => applyPortfolioTheme(selectedTheme);
 
+  // Start the liquid reveal at the user's click/tap position. Theme changes
+  // triggered from the command palette use the center of the viewport.
+  const originX = triggerEvent && Number.isFinite(triggerEvent.clientX)
+    ? triggerEvent.clientX
+    : window.innerWidth / 2;
+  const originY = triggerEvent && Number.isFinite(triggerEvent.clientY)
+    ? triggerEvent.clientY
+    : window.innerHeight / 2;
+  root.style.setProperty("--theme-origin-x", originX + "px");
+  root.style.setProperty("--theme-origin-y", originY + "px");
+
   if (!reduceMotion && typeof document.startViewTransition === "function") {
-    document.startViewTransition(apply);
+    const transition = document.startViewTransition(apply);
+    transition.finished.finally(() => {
+      root.style.removeProperty("--theme-origin-x");
+      root.style.removeProperty("--theme-origin-y");
+    });
   } else {
-    document.documentElement.classList.add("theme-transitioning");
+    // Accessible fallback for browsers without View Transitions support.
+    root.classList.add("theme-transitioning");
     apply();
-    window.setTimeout(() => document.documentElement.classList.remove("theme-transitioning"), 280);
+    window.setTimeout(() => {
+      root.classList.remove("theme-transitioning");
+      root.style.removeProperty("--theme-origin-x");
+      root.style.removeProperty("--theme-origin-y");
+    }, reduceMotion ? 0 : 280);
   }
 
   if (savePreference) {
@@ -190,8 +214,8 @@ const initialTheme = document.documentElement.dataset.theme === "terracotta"
 setPortfolioTheme(initialTheme, false);
 
 themeOptions.forEach((option) => {
-  option.addEventListener("click", () => {
-    setPortfolioTheme(option.dataset.themeChoice);
+  option.addEventListener("click", (event) => {
+    setPortfolioTheme(option.dataset.themeChoice, true, event);
   });
 });
 
