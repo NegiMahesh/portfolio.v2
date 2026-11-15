@@ -26,6 +26,120 @@
   <div class="reading-progress" id="reading-progress" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
     <span id="reading-progress-fill"></span>
   </div>
+  <dialog class="command-dialog" id="command-dialog" aria-labelledby="command-dialog-title">
+    <div class="command-shell">
+      <div class="command-header">
+        <div><span class="dialog-kicker">QUICK NAVIGATION</span><h2 id="command-dialog-title">Where to?</h2></div>
+        <button class="dialog-icon-button" type="button" data-close-dialog aria-label="Close command palette">×</button>
+      </div>
+      <label class="visually-hidden" for="command-search">Search portfolio actions</label>
+      <input class="command-search" id="command-search" type="search" placeholder="Search sections, projects and actions..." autocomplete="off">
+      <p class="command-hint"><span>↑ ↓ Navigate</span><span>↵ Select</span><span>Esc Close</span></p>
+      <div class="command-results" id="command-results" role="group" aria-label="Portfolio commands">
+        <button class="command-item" type="button" data-command="section" data-target="#home" data-search="home start top">
+          <span class="command-item-icon">⌂</span><span class="command-item-copy"><strong>Go to Home</strong><small>Start of the portfolio</small></span><kbd>HOME</kbd>
+        </button>
+        <button class="command-item" type="button" data-command="section" data-target="#about" data-search="about introduction profile">
+          <span class="command-item-icon">◎</span><span class="command-item-copy"><strong>About me</strong><small>Background and introduction</small></span>
+        </button>
+        <button class="command-item" type="button" data-command="section" data-target="#skills" data-search="skills tools technology machine learning">
+          <span class="command-item-icon">⌘</span><span class="command-item-copy"><strong>Tools of the trade</strong><small>Skills and technologies</small></span>
+        </button>
+        <button class="command-item" type="button" data-command="section" data-target="#projects" data-search="projects work portfolio traceback ai assistant">
+          <span class="command-item-icon">▧</span><span class="command-item-copy"><strong>Selected projects</strong><small>Things I've built</small></span>
+        </button>
+        <button class="command-item" type="button" data-command="section" data-target="#education" data-search="education learning timeline">
+          <span class="command-item-icon">⌁</span><span class="command-item-copy"><strong>Education & learning</strong><small>My learning path</small></span>
+        </button>
+        <button class="command-item" type="button" data-command="section" data-target="#contact" data-search="contact email linkedin">
+          <span class="command-item-icon">✉</span><span class="command-item-copy"><strong>Contact</strong><small>Email and LinkedIn</small></span>
+        </button>
+        <div class="command-separator"><span>PROJECT QUICK VIEWS</span></div>
+        <button class="command-item" type="button" data-command="project" data-project-id="assistant" data-search="fast ai assistant ollama python voice vision">
+          <span class="command-item-icon">✳</span><span class="command-item-copy"><strong>Fast AI Assistant</strong><small>Open project details</small></span>
+        </button>
+        <button class="command-item" type="button" data-command="project" data-project-id="traceback" data-search="traceback debugging crash repair pytest">
+          <span class="command-item-icon">⌁</span><span class="command-item-copy"><strong>TraceBack</strong><small>Open project details</small></span>
+        </button>
+        <button class="command-item" type="button" data-command="project" data-project-id="portfolio" data-search="developer portfolio html css javascript">
+          <span class="command-item-icon">▣</span><span class="command-item-copy"><strong>Developer Portfolio</strong><small>Open project details</small></span>
+        </button>
+        <div class="command-separator"><span>QUICK ACTIONS</span></div>
+        <button class="command-item" type="button" data-command="resume" data-search="resume cv curriculum vitae download pdf">
+          <span class="command-item-icon">▤</span><span class="command-item-copy"><strong>Preview résumé</strong><small>View or save as PDF</small></span><kbd>CV</kbd>
+        </button>
+        <button class="command-item" type="button" data-command="copy-email" data-search="copy email address clipboard">
+          <span class="command-item-icon">⧉</span><span class="command-item-copy"><strong>Copy email address</strong><small>negimahesh34@gmail.com</small></span>
+        </button>
+        <button class="command-item" type="button" data-command="theme" data-theme-choice="warm-dark" data-search="warm dark theme">
+          <span class="command-item-icon">◐</span><span class="command-item-copy"><strong>Switch to Warm Dark</strong><small>Charcoal and amber palette</small></span>
+        </button>
+        <button class="command-item" type="button" data-command="theme" data-theme-choice="terracotta" data-search="terracotta light theme">
+          <span class="command-item-icon">◒</span><span class="command-item-copy"><strong>Switch to Terracotta</strong><small>Cream and clay palette</small></span>
+        </button>
+        <p class="command-empty" id="command-empty" hidden>No matching commands. Try another search.</p>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="project-dialog" id="project-dialog" aria-labelledby="project-dialog-title">
+    <div class="project-dialog-shell">
+      <div class="project-dialog-top">
+        <span class="dialog-kicker" id="project-dialog-kicker">PROJECT DETAILS</span>
+        <button class="dialog-icon-button" type="button" data-close-dialog aria-label="Close project details">×</button>
+      </div>
+      <h2 id="project-dialog-title">Project title</h2>
+      <p class="project-dialog-description" id="project-dialog-description"></p>
+      <div class="project-dialog-section"><h3>Highlights</h3><ul id="project-dialog-highlights"></ul></div>
+      <div class="project-dialog-section"><h3>Technology</h3><div class="tag-list" id="project-dialog-stack"></div></div>
+      <div class="project-dialog-actions">
+        <a class="button button-primary" id="project-dialog-repo" href="#" target="_blank" rel="noopener noreferrer">Open GitHub <span>↗</span></a>
+        <button class="button button-text" type="button" data-close-dialog>Close details</button>
+      </div>
+    </div>
+  </dialog>
+
+  <dialog class="resume-dialog" id="resume-dialog" aria-labelledby="resume-name">
+    <div class="resume-dialog-shell">
+      <div class="resume-toolbar">
+        <div><span class="dialog-kicker">RESUME PREVIEW</span><p>Print or save a PDF copy from your browser.</p></div>
+        <div class="resume-toolbar-actions">
+          <button class="resume-print-button" type="button" id="resume-print">Download PDF ↗</button>
+          <button class="dialog-icon-button" type="button" data-close-dialog aria-label="Close résumé preview">×</button>
+        </div>
+      </div>
+      <article class="resume-sheet" id="resume-sheet">
+        <header class="resume-heading">
+          <div><h1 id="resume-name">Mahesh Negi</h1><p>Computer Science & Engineering Student · Developer</p></div>
+          <span class="resume-monogram" aria-hidden="true">MN.</span>
+        </header>
+        <div class="resume-contact">
+          <a href="mailto:negimahesh34@gmail.com">negimahesh34@gmail.com</a>
+          <a href="https://www.linkedin.com/in/m%C3%A0hesh-negi-a9a167407/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://github.com/NegiMahesh" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <span>Uttarakhand, India</span>
+        </div>
+        <section class="resume-section"><h2>Profile</h2><p>Computer Science and Engineering diploma student interested in building practical software with Python, web technologies and local AI tools. Enjoys breaking problems into smaller steps, experimenting with ideas and improving projects through hands-on development.</p></section>
+        <section class="resume-section"><h2>Technical Skills</h2>
+          <p><strong>Programming:</strong> C, Java, Python</p>
+          <p><strong>Web:</strong> HTML5, CSS3, JavaScript</p>
+          <p><strong>Backend & AI:</strong> FastAPI, REST APIs, Ollama</p>
+          <p><strong>Tools:</strong> Git, GitHub, VS Code</p>
+          <p><strong>Machine Learning (exploring):</strong> NumPy, Pandas, Matplotlib, Scikit-learn</p>
+        </section>
+        <section class="resume-section"><h2>Selected Projects</h2>
+          <div class="resume-project"><h3>TraceBack · AI-powered debugging engine</h3><p>Analyzes Python crashes, traces source lines and Git commit origin, proposes targeted fixes and regression tests with a local Ollama model, and verifies changes before approval.</p><small>Python · FastAPI · React · Ollama · Pytest · Git</small></div>
+          <div class="resume-project"><h3>Fast AI Assistant</h3><p>A local-first personal assistant built around a FastAPI backend and local Ollama models, with a web interface and experiments in voice and vision.</p><small>Python · FastAPI · Ollama · JavaScript</small></div>
+          <div class="resume-project"><h3>Developer Portfolio</h3><p>A responsive personal website with two visual themes, accessible interactions and project showcases.</p><small>HTML · CSS · JavaScript</small></div>
+        </section>
+        <section class="resume-section"><h2>Education</h2><h3>Diploma in Computer Science & Engineering</h3><p>Government Polytechnic Srinagar Garhwal, Uttarakhand · 5th Semester</p></section>
+        <p class="resume-note">This résumé is based on the information currently published in the portfolio. Add any missing dates, phone number, certifications or experience before using it for formal applications.</p>
+      </article>
+    </div>
+  </dialog>
+
+  <div class="site-toast" id="site-toast" role="status" aria-live="polite" aria-atomic="true" hidden></div>
+
   <div class="site-shell">
     <header class="site-header" id="top">
       <nav class="nav container" aria-label="Main navigation">
@@ -42,6 +156,9 @@
           <a href="#projects">Projects</a>
           <a href="#education">Education</a>
           <a class="nav-cta" href="#contact">Let's talk <span aria-hidden="true">↗</span></a>
+          <button class="command-trigger" id="command-trigger" type="button" aria-haspopup="dialog" aria-controls="command-dialog">
+            <span>Quick jump</span><kbd>Ctrl K</kbd>
+          </button>
           <div class="theme-switch" role="group" aria-label="Choose color theme">
             <button class="theme-option" type="button" data-theme-choice="warm-dark" aria-pressed="true">Warm Dark</button>
             <button class="theme-option" type="button" data-theme-choice="terracotta" aria-pressed="false">Terracotta</button>
@@ -64,6 +181,7 @@
           <div class="hero-actions">
             <a class="button button-primary" href="#projects">Explore my work <span aria-hidden="true">↗</span></a>
             <a class="button button-text" href="#contact">Get in touch <span aria-hidden="true">↓</span></a>
+            <button class="button button-text resume-open-button" type="button" data-open-resume>View résumé <span aria-hidden="true">↗</span></button>
           </div>
 
           <div class="hero-meta">
@@ -168,8 +286,15 @@
           </div>
         </div>
 
+        <div class="project-filters" role="group" aria-label="Filter projects">
+          <button class="filter-chip" type="button" data-project-filter="all" aria-pressed="true">All projects <span>3</span></button>
+          <button class="filter-chip" type="button" data-project-filter="ai" aria-pressed="false">AI & automation</button>
+          <button class="filter-chip" type="button" data-project-filter="developer-tools" aria-pressed="false">Developer tools</button>
+          <button class="filter-chip" type="button" data-project-filter="web" aria-pressed="false">Web</button>
+          <p class="project-filter-count" id="project-filter-count" aria-live="polite">Showing 3 projects</p>
+        </div>
         <div class="projects-grid">
-          <article class="project-card project-large" data-reveal>
+          <article class="project-card project-large" data-reveal data-project-categories="ai local-ai">
             <a class="project-visual assistant-visual" href="https://github.com/NegiMahesh/AI_assistant" target="_blank" rel="noopener noreferrer" aria-label="View Fast AI Assistant on GitHub">
               <div class="visual-label">EXPERIMENT / 001</div>
               <div class="assistant-ui">
@@ -192,10 +317,11 @@
               <p>A local-first personal assistant built around a FastAPI backend and local Ollama models, with a web interface and experiments in voice and vision features.</p>
               <div class="tag-list"><span>Python</span><span>FastAPI</span><span>Ollama</span><span>JavaScript</span></div>
               <a class="inline-link" href="https://github.com/NegiMahesh/AI_assistant" target="_blank" rel="noopener noreferrer">Explore the project <span>↗</span></a>
+              <button class="quick-view-button" type="button" data-open-project="assistant">Quick view <span>↗</span></button>
             </div>
           </article>
 
-          <article class="project-card" data-reveal>
+          <article class="project-card" data-reveal data-project-categories="ai developer-tools">
             <a class="project-visual traceback-visual" href="https://github.com/NegiMahesh/TraceBack" target="_blank" rel="noopener noreferrer" aria-label="View TraceBack on GitHub">
               <div class="visual-label">DEBUGGING ENGINE / 002</div>
               <div class="traceback-window">
@@ -223,10 +349,11 @@
               <p>An AI-powered Python debugging engine that parses crashes, traces the faulty line and Git commit origin, then proposes a targeted fix and regression test using a local Ollama model. Changes are tested and verified before approval.</p>
               <div class="tag-list"><span>Python</span><span>FastAPI</span><span>React</span><span>Ollama</span><span>Pytest</span><span>Git</span></div>
               <a class="inline-link" href="https://github.com/NegiMahesh/TraceBack" target="_blank" rel="noopener noreferrer">Explore TraceBack <span>↗</span></a>
+              <button class="quick-view-button" type="button" data-open-project="traceback">Quick view <span>↗</span></button>
             </div>
           </article>
 
-          <article class="project-card" data-reveal>
+          <article class="project-card" data-reveal data-project-categories="web frontend">
             <a class="project-visual portfolio-visual" href="https://github.com/NegiMahesh/portfolio.v2" target="_blank" rel="noopener noreferrer" aria-label="View this portfolio source code on GitHub">
               <div class="visual-label">PERSONAL SITE / 002</div>
               <div class="portfolio-mockup">
@@ -242,6 +369,7 @@
               <p>A responsive personal website to introduce myself, share what I'm learning, and showcase projects along the way.</p>
               <div class="tag-list"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
               <a class="inline-link" href="https://github.com/NegiMahesh/portfolio.v2" target="_blank" rel="noopener noreferrer">View source code <span>↗</span></a>
+              <button class="quick-view-button" type="button" data-open-project="portfolio">Quick view <span>↗</span></button>
             </div>
           </article>
         </div>
@@ -263,6 +391,31 @@
             </div>
           </article>
         </div>
+        <div class="learning-timeline" aria-labelledby="learning-timeline-title">
+          <div class="timeline-heading">
+            <span class="timeline-kicker">THE JOURNEY SO FAR</span>
+            <h3 id="learning-timeline-title">Learning by <em>building.</em></h3>
+            <p>A snapshot of the areas I'm developing through coursework and hands-on projects.</p>
+          </div>
+          <ol class="timeline-list">
+            <li class="timeline-item">
+              <span class="timeline-node">01</span>
+              <div><h4>Programming foundations</h4><p>C, Java, Python and problem-solving practice.</p></div>
+            </li>
+            <li class="timeline-item">
+              <span class="timeline-node">02</span>
+              <div><h4>Web development</h4><p>Building responsive interfaces with HTML, CSS and JavaScript.</p></div>
+            </li>
+            <li class="timeline-item">
+              <span class="timeline-node">03</span>
+              <div><h4>Backend and local AI</h4><p>Experimenting with FastAPI, Ollama, the AI Assistant and TraceBack.</p></div>
+            </li>
+            <li class="timeline-item">
+              <span class="timeline-node">04</span>
+              <div><h4>Data and machine learning</h4><p>Exploring NumPy, Pandas, Matplotlib and Scikit-learn.</p></div>
+            </li>
+          </ol>
+        </div>
       </section>
 
       <section class="section container contact-section" id="contact">
@@ -274,6 +427,7 @@
           <!-- Replace the placeholder email with your real email address before publishing. -->
           <div class="contact-actions">
             <a class="contact-button" href="mailto:negimahesh34@gmail.com">Write me an email <span>↗</span></a>
+            <button class="contact-button contact-button-copy" type="button" data-copy-email="negimahesh34@gmail.com">Copy email <span aria-hidden="true">⧉</span></button>
             <a class="contact-button contact-button-secondary" href="https://www.linkedin.com/in/m%C3%A0hesh-negi-a9a167407/" target="_blank" rel="noopener noreferrer" aria-label="Visit Mahesh Negi on LinkedIn">LinkedIn <span>↗</span></a>
           </div>
           <div class="contact-footer">
