@@ -425,24 +425,31 @@ if (commandSearch) {
     const items = visibleCommandItems();
     if (!items.length) return;
 
-    if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+    if (event.key === "ArrowDown") {
       event.preventDefault();
-      const direction = event.key === "ArrowDown" ? 1 : -1;
-      let current = items.findIndex((item) => item.classList.contains("is-active"));
-      current = current < 0
-        ? (direction > 0 ? 0 : items.length - 1)
-        : (current + direction + items.length) % items.length;
-      items.forEach((item, index) => item.classList.toggle("is-active", index === current));
-      if (!items[current].id) items[current].id = "command-item-" + commandItems.indexOf(items[current]);
-      commandSearch.setAttribute("aria-activedescendant", items[current].id);
-      items[current].scrollIntoView({ block: "nearest" });
+      items[0].focus();
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      items[items.length - 1].focus();
     } else if (event.key === "Enter") {
       event.preventDefault();
-      const active = items.find((item) => item.classList.contains("is-active")) || items[0];
-      active.click();
+      items[0].click();
     }
   });
 }
+
+commandItems.forEach((item) => {
+  item.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+    const items = visibleCommandItems();
+    const current = items.indexOf(item);
+    if (current < 0 || !items.length) return;
+    event.preventDefault();
+    const direction = event.key === "ArrowDown" ? 1 : -1;
+    const next = (current + direction + items.length) % items.length;
+    items[next].focus();
+  });
+});
 
 function getCommandReturnFocus() {
   if (commandTrigger && commandTrigger.getClientRects().length) return commandTrigger;
