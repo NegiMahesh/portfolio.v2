@@ -187,7 +187,7 @@ function playThemePaperUnfold(selectedTheme, trigger) {
 
   paper.style.setProperty("--paper-origin-x", x + "%");
   paper.style.setProperty("--paper-origin-y", y + "%");
-  paper.style.setProperty("--paper-sheet-color", selectedTheme === "terracotta" ? "#F7F1E8" : "#1C1917");
+  paper.style.setProperty("--paper-sheet-color", selectedTheme === "terracotta" ? "#F7F1E8" : "#013230");
   paper.style.setProperty("--paper-fold-color", selectedTheme === "terracotta" ? "#B85C38" : "#FF6A1F");
 
   const removePaper = () => {
