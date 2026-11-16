@@ -159,7 +159,7 @@ function applyPortfolioTheme(selectedTheme) {
     option.setAttribute("aria-pressed", String(option.dataset.themeChoice === selectedTheme));
   });
   if (themeColorMeta) {
-    themeColorMeta.setAttribute("content", selectedTheme === "terracotta" ? "#F7F1E8" : "#1C1917");
+    themeColorMeta.setAttribute("content", selectedTheme === "terracotta" ? "#F7F1E8" : "#013230");
   }
 }
 
@@ -188,7 +188,7 @@ function playThemePaperUnfold(selectedTheme, trigger) {
   paper.style.setProperty("--paper-origin-x", x + "%");
   paper.style.setProperty("--paper-origin-y", y + "%");
   paper.style.setProperty("--paper-sheet-color", selectedTheme === "terracotta" ? "#F7F1E8" : "#1C1917");
-  paper.style.setProperty("--paper-fold-color", selectedTheme === "terracotta" ? "#B85C38" : "#F59E0B");
+  paper.style.setProperty("--paper-fold-color", selectedTheme === "terracotta" ? "#B85C38" : "#FF6A1F");
 
   const removePaper = () => {
     paper.remove();
