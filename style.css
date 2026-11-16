@@ -649,7 +649,7 @@ em, .period, .hero-serif { color: var(--forest); }
 .symbol-tools { background: #164744; color: #C3B17C; }
 .symbol-ai { background: #164744; color: #FF9A68; }
 .skill-card h3 { color: #F3EBDD; }
-.skill-card p { color: #BDB0A4; }
+.skill-card p { color: #C4CFC5; }
 .tag-list span {
   border-color: rgba(255,255,255,.11);
   background: rgba(255,255,255,.035);
@@ -716,7 +716,7 @@ em, .period, .hero-serif { color: var(--forest); }
 .mockup-shape span { color: rgba(255,106,31,.12); }
 .project-overline { color: #A99A8B; }
 .project-details h3 { color: #F3EBDD; }
-.project-details p { color: #BDB0A4; }
+.project-details p { color: #C4CFC5; }
 
 /* Education and contact */
 .education-section {
@@ -770,7 +770,7 @@ em, .period, .hero-serif { color: var(--forest); }
   border-top-color: var(--line);
   background: #012725;
 }
-.footer-inner p { color: #9F9287; }
+.footer-inner p { color: #A9BDB3; }
 
 /* Navigation state, reading progress and keyboard affordances */
 .reading-progress { background: rgba(255,255,255,.07); }
