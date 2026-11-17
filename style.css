@@ -42,7 +42,7 @@ body {
 ::selection { background: rgba(40, 99, 79, .18); color: var(--forest-deep); }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; }
-.site-shell { overflow: hidden; }
+.site-shell { position: relative; z-index: 0; overflow: hidden; }
 .container { width: min(var(--container), calc(100% - 64px)); margin-inline: auto; }
 .section { position: relative; padding-block: 116px; }
 em { color: var(--forest); font-family: Georgia, "Times New Roman", serif; font-weight: 400; }
@@ -1968,4 +1968,36 @@ em, .period, .hero-serif { color: var(--forest); }
 }
 @media (prefers-reduced-motion: reduce) {
   .theme-paper-unfold { display: none !important; animation: none !important; }
+}
+
+
+/* ---------------------------------------------------------
+   Pointer-driven water ripples
+   A restrained overlay that adapts to the active palette.
+---------------------------------------------------------- */
+:root {
+  --water-ripple-rgb: 185, 225, 220;
+  --water-ripple-opacity: .34;
+}
+:root[data-theme="terracotta"] {
+  --water-ripple-rgb: 74, 112, 132;
+  --water-ripple-opacity: .22;
+}
+#water-ripples {
+  position: fixed;
+  z-index: 2;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: .7;
+  mix-blend-mode: screen;
+}
+:root[data-theme="terracotta"] #water-ripples {
+  opacity: .62;
+  mix-blend-mode: multiply;
+}
+@media (prefers-reduced-motion: reduce) {
+  #water-ripples { display: none; }
 }

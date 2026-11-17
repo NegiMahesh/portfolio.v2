@@ -538,3 +538,144 @@ function scheduleScrollUpdates() {
 }
 window.addEventListener("scroll", scheduleScrollUpdates, { passive: true });
 window.addEventListener("resize", scheduleScrollUpdates);
+
+
+// Subtle pointer-driven water ripples.
+// The canvas only animates while a ripple is active, keeping idle cost near zero.
+(() => {
+  const canvas = document.getElementById("water-ripples");
+  if (!canvas || reduceMotion) return;
+
+  const context = canvas.getContext("2d", { alpha: true });
+  if (!context) return;
+
+  let width = 0;
+  let height = 0;
+  let pixelRatio = 1;
+  let animationFrame = 0;
+  let ripples = [];
+  let lastRipplePoint = null;
+  let lastRippleTime = 0;
+
+  function resizeRippleCanvas() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    pixelRatio = Math.min(window.devicePixelRatio || 1, 1.75);
+
+    canvas.width = Math.round(width * pixelRatio);
+    canvas.height = Math.round(height * pixelRatio);
+    context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+  }
+
+  function drawRipples(now) {
+    animationFrame = 0;
+    context.clearRect(0, 0, width, height);
+
+    const rootStyles = window.getComputedStyle(document.documentElement);
+    const rippleColor = rootStyles.getPropertyValue("--water-ripple-rgb").trim() || "185, 225, 220";
+    const themeOpacity = Number.parseFloat(
+      rootStyles.getPropertyValue("--water-ripple-opacity")
+    ) || 0.25;
+
+    const activeRipples = [];
+
+    ripples.forEach((ripple) => {
+      const progress = (now - ripple.startedAt) / ripple.duration;
+      if (progress >= 1) return;
+
+      activeRipples.push(ripple);
+
+      // Three staggered rings create a soft, layered water-wave impression.
+      for (let ring = 0; ring < 3; ring += 1) {
+        const phase = progress - ring * 0.18;
+        if (phase <= 0 || phase >= 1) continue;
+
+        const fade = 1 - phase;
+        const radius = 8 + phase * ripple.maxRadius;
+        const ringStrength = ring === 0 ? 1 : ring === 1 ? 0.76 : 0.56;
+        const alpha = themeOpacity * ripple.strength * ringStrength * Math.pow(fade, 1.75);
+
+        context.beginPath();
+        context.ellipse(
+          ripple.x,
+          ripple.y,
+          radius,
+          radius * (ring === 0 ? 0.96 : 0.98),
+          0,
+          0,
+          Math.PI * 2
+        );
+        context.strokeStyle = "rgba(" + rippleColor + ", " + alpha.toFixed(3) + ")";
+        context.lineWidth = ring === 0 ? 1.15 : 0.85;
+        context.stroke();
+      }
+    });
+
+    ripples = activeRipples;
+
+    if (ripples.length) {
+      animationFrame = window.requestAnimationFrame(drawRipples);
+    }
+  }
+
+  function addWaterRipple(x, y, strength) {
+    const shorterSide = Math.min(width, height);
+
+    ripples.push({
+      x,
+      y,
+      startedAt: performance.now(),
+      duration: 1550,
+      maxRadius: Math.min(205, Math.max(105, shorterSide * 0.2)),
+      strength
+    });
+
+    // Cap concurrent effects so fast pointer movement cannot grow the list forever.
+    if (ripples.length > 24) ripples.splice(0, ripples.length - 24);
+
+    if (!animationFrame) {
+      animationFrame = window.requestAnimationFrame(drawRipples);
+    }
+  }
+
+  function handlePointerMove(event) {
+    // Touch creates a ripple on contact instead of drawing a trail while scrolling.
+    if (event.pointerType === "touch") return;
+
+    const point = { x: event.clientX, y: event.clientY };
+    if (!lastRipplePoint) {
+      lastRipplePoint = point;
+      return;
+    }
+
+    const distance = Math.hypot(
+      point.x - lastRipplePoint.x,
+      point.y - lastRipplePoint.y
+    );
+    const now = performance.now();
+
+    // Spacing and timing thresholds keep the effect elegant rather than noisy.
+    if (distance < 54 || now - lastRippleTime < 95) return;
+
+    addWaterRipple(point.x, point.y, 0.72);
+    lastRipplePoint = point;
+    lastRippleTime = now;
+  }
+
+  function handlePointerDown(event) {
+    if (event.pointerType !== "touch" && event.button !== 0) return;
+
+    addWaterRipple(event.clientX, event.clientY, 1.05);
+    lastRipplePoint = { x: event.clientX, y: event.clientY };
+    lastRippleTime = performance.now();
+  }
+
+  resizeRippleCanvas();
+
+  window.addEventListener("resize", resizeRippleCanvas, { passive: true });
+  window.addEventListener("pointermove", handlePointerMove, { passive: true });
+  window.addEventListener("pointerdown", handlePointerDown, { passive: true });
+  window.addEventListener("blur", () => {
+    lastRipplePoint = null;
+  });
+})();
