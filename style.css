@@ -2277,3 +2277,56 @@ em, .period, .hero-serif { color: var(--forest); }
 @media (prefers-reduced-motion: reduce) {
   .glass-surface > .glass-reflection { transition: none; }
 }
+
+
+/* Electric purple accent — dark theme only (kept to a restrained ~10%). */
+:root:not([data-theme="terracotta"]) {
+  --electric-purple: #8b5cf6;
+  --electric-purple-wash: rgba(139, 92, 246, .10);
+  --electric-purple-line: rgba(139, 92, 246, .22);
+  --glass-accent: color-mix(in srgb, rgba(255, 128, 65, .20) 90%, #8b5cf6 10%);
+}
+
+/* A faint violet atmosphere, visible mainly around interactive surfaces. */
+:root:not([data-theme="terracotta"]) ::selection {
+  background: rgba(139, 92, 246, .22);
+  color: #F3EBE0;
+}
+:root:not([data-theme="terracotta"]) .hero-art.glass-surface {
+  box-shadow:
+    0 30px 82px rgba(0, 0, 0, .28),
+    0 0 34px rgba(139, 92, 246, .10),
+    inset 0 1px 0 rgba(255, 255, 255, .24),
+    inset 0 0 0 1px rgba(139, 92, 246, .08);
+}
+:root:not([data-theme="terracotta"]) .skill-card.glass-surface:hover,
+:root:not([data-theme="terracotta"]) .project-card.glass-surface:hover {
+  border-color: color-mix(in srgb, var(--glass-border) 78%, #8b5cf6 22%);
+  box-shadow:
+    var(--glass-shadow),
+    0 0 28px rgba(139, 92, 246, .10),
+    inset 0 1px 0 rgba(255, 255, 255, .24);
+}
+:root:not([data-theme="terracotta"]) .glass-surface > .glass-reflection {
+  background:
+    radial-gradient(430px circle at var(--glass-x, 50%) var(--glass-y, 28%),
+      rgba(139, 92, 246, .10), transparent 62%),
+    linear-gradient(135deg,
+      rgba(255, 255, 255, .24) 0%,
+      rgba(255, 255, 255, .035) 34%,
+      transparent 62%,
+      rgba(139, 92, 246, .08) 100%);
+}
+:root:not([data-theme="terracotta"]) .glass-surface.is-glass-lit > .glass-reflection {
+  background:
+    radial-gradient(460px circle at var(--glass-x, 50%) var(--glass-y, 28%),
+      rgba(139, 92, 246, .18), transparent 64%),
+    linear-gradient(135deg,
+      rgba(255, 255, 255, .29) 0%,
+      rgba(255, 255, 255, .04) 35%,
+      transparent 62%,
+      rgba(139, 92, 246, .12) 100%);
+}
+:root:not([data-theme="terracotta"]) #water-ripples {
+  filter: hue-rotate(10deg);
+}
