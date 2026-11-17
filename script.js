@@ -540,6 +540,54 @@ window.addEventListener("scroll", scheduleScrollUpdates, { passive: true });
 window.addEventListener("resize", scheduleScrollUpdates);
 
 
+// Theme-aware glassmorphism on selected surfaces.
+// Pointer lighting is progressive enhancement; static glass styling remains available
+// to touch users and visitors who prefer reduced motion.
+(() => {
+  const glassSurfaces = document.querySelectorAll(
+    ".hero-art, .skill-card, .project-card, .education-card"
+  );
+
+  glassSurfaces.forEach((surface) => {
+    surface.classList.add("glass-surface");
+
+    if (!surface.querySelector(":scope > .glass-reflection")) {
+      const reflection = document.createElement("span");
+      reflection.className = "glass-reflection";
+      reflection.setAttribute("aria-hidden", "true");
+      surface.insertBefore(reflection, surface.firstChild);
+    }
+  });
+
+  const canUseGlassPointer =
+    window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+    !reduceMotion;
+
+  if (!canUseGlassPointer) return;
+
+  glassSurfaces.forEach((surface) => {
+    surface.addEventListener("pointermove", (event) => {
+      if (event.pointerType === "touch") return;
+
+      const bounds = surface.getBoundingClientRect();
+      if (!bounds.width || !bounds.height) return;
+
+      const x = ((event.clientX - bounds.left) / bounds.width) * 100;
+      const y = ((event.clientY - bounds.top) / bounds.height) * 100;
+
+      surface.style.setProperty("--glass-x", x.toFixed(1) + "%");
+      surface.style.setProperty("--glass-y", y.toFixed(1) + "%");
+      surface.classList.add("is-glass-lit");
+    }, { passive: true });
+
+    surface.addEventListener("pointerleave", () => {
+      surface.classList.remove("is-glass-lit");
+      surface.style.removeProperty("--glass-x");
+      surface.style.removeProperty("--glass-y");
+    }, { passive: true });
+  });
+})();
+
 // Subtle pointer-driven water ripples.
 // The canvas only animates while a ripple is active, keeping idle cost near zero.
 (() => {
