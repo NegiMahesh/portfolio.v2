@@ -2107,3 +2107,173 @@ em, .period, .hero-serif { color: var(--forest); }
 @media (prefers-reduced-motion: reduce) {
   .glass-surface > .glass-reflection { transition: none; }
 }
+
+
+/* Stronger glass finish: clearer translucency, visible reflections, and rounded cards. */
+:root {
+  --glass-card-bg: linear-gradient(138deg,
+    rgba(224, 247, 238, .16) 0%,
+    rgba(16, 83, 75, .57) 46%,
+    rgba(3, 38, 36, .68) 100%);
+  --glass-card-hover-bg: linear-gradient(138deg,
+    rgba(235, 250, 243, .21) 0%,
+    rgba(20, 102, 91, .64) 48%,
+    rgba(4, 48, 44, .72) 100%);
+  --glass-project-bg: linear-gradient(145deg,
+    rgba(219, 245, 235, .095),
+    rgba(7, 53, 49, .48));
+  --glass-project-hover-bg: linear-gradient(145deg,
+    rgba(230, 250, 241, .15),
+    rgba(10, 69, 62, .58));
+  --glass-border: rgba(222, 245, 234, .31);
+  --glass-highlight: rgba(255, 255, 255, .48);
+  --glass-accent: rgba(255, 128, 65, .20);
+  --glass-shadow:
+    0 24px 64px rgba(0, 0, 0, .27),
+    inset 0 1px 0 rgba(255, 255, 255, .20);
+}
+:root[data-theme="terracotta"] {
+  --glass-card-bg: linear-gradient(138deg,
+    rgba(255, 255, 255, .84) 0%,
+    rgba(250, 240, 228, .68) 48%,
+    rgba(228, 207, 189, .54) 100%);
+  --glass-card-hover-bg: linear-gradient(138deg,
+    rgba(255, 255, 255, .94) 0%,
+    rgba(255, 246, 235, .78) 48%,
+    rgba(237, 216, 198, .64) 100%);
+  --glass-project-bg: linear-gradient(145deg,
+    rgba(255, 255, 255, .58),
+    rgba(231, 212, 194, .42));
+  --glass-project-hover-bg: linear-gradient(145deg,
+    rgba(255, 255, 255, .78),
+    rgba(243, 224, 205, .62));
+  --glass-border: rgba(128, 83, 59, .25);
+  --glass-highlight: rgba(255, 255, 255, .82);
+  --glass-accent: rgba(184, 92, 56, .16);
+  --glass-shadow:
+    0 22px 54px rgba(83, 57, 40, .14),
+    inset 0 1px 0 rgba(255, 255, 255, .86);
+}
+
+/* A positive stacking level keeps the sheen visible above each panel background. */
+.glass-surface {
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  background-clip: padding-box;
+  backdrop-filter: blur(25px) saturate(178%);
+  -webkit-backdrop-filter: blur(25px) saturate(178%);
+  box-shadow: var(--glass-shadow);
+}
+.glass-surface > .glass-reflection {
+  z-index: 1;
+  inset: 1px;
+  border: 1px solid rgba(255, 255, 255, .10);
+  background:
+    radial-gradient(430px circle at var(--glass-x, 50%) var(--glass-y, 28%),
+      rgba(255, 255, 255, .34), transparent 62%),
+    linear-gradient(135deg,
+      rgba(255, 255, 255, .24) 0%,
+      rgba(255, 255, 255, .035) 34%,
+      transparent 62%,
+      rgba(255, 255, 255, .09) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, .42),
+    inset 1px 0 0 rgba(255, 255, 255, .16);
+  mix-blend-mode: soft-light;
+  opacity: .56;
+  transition: opacity 220ms ease, background-position 220ms ease;
+}
+.glass-surface.is-glass-lit > .glass-reflection {
+  opacity: 1;
+  background:
+    radial-gradient(460px circle at var(--glass-x, 50%) var(--glass-y, 28%),
+      rgba(255, 255, 255, .62), transparent 64%),
+    linear-gradient(135deg,
+      rgba(255, 255, 255, .29) 0%,
+      rgba(255, 255, 255, .04) 35%,
+      transparent 62%,
+      rgba(255, 255, 255, .13) 100%);
+}
+
+/* Rounded silhouettes make the glass surfaces read clearly as individual objects. */
+:root .skill-card.glass-surface {
+  border-radius: 20px;
+  border-color: var(--glass-border);
+  background: var(--glass-card-bg);
+  box-shadow: var(--glass-shadow);
+}
+:root .skill-card.glass-surface:hover {
+  border-color: color-mix(in srgb, var(--glass-border) 55%, var(--forest));
+  background: var(--glass-card-hover-bg);
+  box-shadow:
+    0 28px 68px rgba(0, 0, 0, .25),
+    0 0 34px var(--glass-accent),
+    inset 0 1px 0 rgba(255, 255, 255, .30);
+}
+:root .project-card.glass-surface {
+  border-radius: 21px;
+  border-color: var(--glass-border);
+  background: var(--glass-project-bg);
+  box-shadow: var(--glass-shadow);
+}
+:root .project-card.glass-surface:hover {
+  border-color: color-mix(in srgb, var(--glass-border) 52%, var(--forest));
+  background: var(--glass-project-hover-bg);
+  box-shadow:
+    0 26px 64px rgba(0, 0, 0, .24),
+    0 0 30px var(--glass-accent),
+    inset 0 1px 0 rgba(255, 255, 255, .28);
+}
+:root .project-card.glass-surface .project-visual {
+  border-radius: 15px;
+}
+:root .education-card.glass-surface {
+  border-radius: 20px;
+  border-color: var(--glass-border);
+  background: var(--glass-card-bg);
+  box-shadow: var(--glass-shadow);
+}
+:root .hero-art.glass-surface {
+  border-radius: 24px;
+  border-color: var(--glass-border);
+  box-shadow:
+    0 30px 82px rgba(0, 0, 0, .28),
+    inset 0 1px 0 rgba(255, 255, 255, .24),
+    inset 0 0 0 1px rgba(255, 255, 255, .045);
+}
+:root .hero-art.glass-surface > .glass-reflection {
+  opacity: .38;
+}
+:root .hero-art.glass-surface.is-glass-lit > .glass-reflection {
+  opacity: .82;
+}
+
+/* Round inner preview windows without flattening their existing artwork. */
+.assistant-ui,
+.traceback-window,
+.portfolio-mockup {
+  border-radius: 13px;
+}
+.art-caption {
+  border-radius: 13px;
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+}
+.contact-panel {
+  border-radius: 22px;
+}
+
+/* Keep glass visible but slightly calmer on small screens. */
+@media (max-width: 700px) {
+  .glass-surface {
+    border-radius: 17px;
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+  }
+  :root .project-card.glass-surface { border-radius: 18px; }
+  :root .hero-art.glass-surface { border-radius: 20px; }
+  .glass-surface > .glass-reflection { opacity: .38; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .glass-surface > .glass-reflection { transition: none; }
+}
